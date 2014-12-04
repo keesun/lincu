@@ -1,6 +1,6 @@
 ## LinCu
 
-Link Curatoring System
+Link Curating System
 
 ## Feature
 
