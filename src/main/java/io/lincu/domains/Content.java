@@ -15,6 +15,8 @@ public class Content {
 
     private String url;
 
+    private String title;
+
     private ContentSource contentSource;
 
     private Long viewCount;
@@ -26,5 +28,7 @@ public class Content {
     private Account curatedBy;
 
     private Date curatedAt;
+
+    private boolean alive;
 
 }
