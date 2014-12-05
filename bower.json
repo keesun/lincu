@@ -1,6 +1,6 @@
 {
   "name": "lincu",
   "dependencies": {
-
+    "angular-material":"0.6.0"
   }
 }
