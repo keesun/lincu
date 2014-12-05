@@ -3,3 +3,4 @@ target/
 src/main/resources/vendor/
 *.iml
 node_modules/
+node/
