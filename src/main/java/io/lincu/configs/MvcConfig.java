@@ -14,5 +14,9 @@ public class MvcConfig extends WebMvcAutoConfiguration.WebMvcAutoConfigurationAd
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/vendor/**")
                 .addResourceLocations("classpath:/vendor/");
+
+        registry.addResourceHandler("/styles/**")
+                .addResourceLocations("classpath:/styles/")
+                .setCachePeriod(0);
     }
 }
