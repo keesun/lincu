@@ -1,7 +1,6 @@
 {
   "name": "linqu",
   "dependencies": {
-    "polymer": "Polymer/polymer#~0.5.1",
     "jquery":"2.1.1",
     "bootstrap":"3.3.1",
     "bootstrap-material-design":"0.2.0",
