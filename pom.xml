@@ -64,11 +64,21 @@
                     </execution>
 
                     <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
                         <id>gulp build</id>
                         <goals>
                             <goal>gulp</goal>
                         </goals>
-                        <!-- optional: the default phase is "generate-resources" -->
                         <phase>generate-resources</phase>
                         <configuration>
                             <arguments>bower</arguments>
