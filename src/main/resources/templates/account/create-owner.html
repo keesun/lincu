@@ -11,18 +11,23 @@
 </head>
 <body>
     <div class="container">
-        <form class="form-signin" role="form">
-            <h2 class="form-signin-heading">Please sign in</h2>
-            <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="true" autofocus="true" />
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="true" />
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" value="remember-me" /> Remember me
-                </label>
+        <form class="form-signin" role="form" action="/form/accounts/owner" method="POST" th:object="${owner}">
+            <h3 class="form-signin-heading">Create owner account</h3>
+
+            <div th:if="${#fields.hasAnyErrors()}">
+                <p th:each="err : ${#fields.allErrors()}" th:text="${err}">...</p>
             </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input type="email" th:field="*{email}" name="email" id="inputEmail" class="form-control"
+                   placeholder="Email address" required="true" autofocus="true" />
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect date</p>
+
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" th:field="*{password}" name="password" id="inputPassword" class="form-control"
+                   placeholder="Password" required="true" />
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Next</button>
         </form>
     </div>
 
