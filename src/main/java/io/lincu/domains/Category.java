@@ -1,6 +1,7 @@
 package io.lincu.domains;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,6 +18,7 @@ public class Category {
     private Long id;
 
     @Column(unique = true, nullable = false)
+    @NotEmpty
     private String name;
 
     private String descr;
