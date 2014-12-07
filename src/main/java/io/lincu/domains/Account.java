@@ -1,11 +1,12 @@
 package io.lincu.domains;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.util.Date;
 
 /**
  * @author Keeun Baik
@@ -19,8 +20,14 @@ public class Account {
 
     String username; // for display
 
+    @Column(nullable = false)
+    @Email
+    @NotEmpty
     String email;
 
+    @Column(nullable = false)
+    @NotEmpty
+    @Size(min = 5)
     String password;
 
     String slug; // for url path
@@ -33,5 +40,9 @@ public class Account {
     String bio;
 
     boolean owner;
+
+    Date created;
+
+    Date updated;
 
 }
