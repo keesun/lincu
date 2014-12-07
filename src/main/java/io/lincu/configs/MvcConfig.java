@@ -13,7 +13,8 @@ public class MvcConfig extends WebMvcAutoConfiguration.WebMvcAutoConfigurationAd
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/vendor/**")
-                .addResourceLocations("classpath:/vendor/");
+                .addResourceLocations("classpath:/vendor/")
+                .setCachePeriod(Integer.MAX_VALUE);
 
         registry.addResourceHandler("/styles/**")
                 .addResourceLocations("classpath:/styles/")

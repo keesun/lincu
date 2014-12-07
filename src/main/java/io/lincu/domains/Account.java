@@ -41,8 +41,10 @@ public class Account {
 
     boolean owner;
 
+    @Temporal(TemporalType.TIMESTAMP)
     Date created;
 
+    @Temporal(TemporalType.TIMESTAMP)
     Date updated;
 
 }
