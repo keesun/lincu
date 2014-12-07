@@ -5,3 +5,4 @@ src/main/resources/vendor/
 node_modules/
 node/
 npm-debug.log
+*.db
