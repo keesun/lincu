@@ -26,10 +26,6 @@ public class HomeController {
 
     @RequestMapping("/")
     public String home(Model model) {
-        List<Account> accounts = accountRepository.findByOwner(true);
-        if (accounts.isEmpty()) {
-            return "redirect:/form/accounts/owner";
-        }
         model.addAttribute("content", new Content());
         model.addAttribute("allContents", contentRepository.findAll(sortByCuratedDEAC()));
         return "/index";
