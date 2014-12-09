@@ -1,6 +1,7 @@
 package io.lincu.configs;
 
 import io.lincu.interceptors.CreateAdminAccountInteceptor;
+import io.lincu.interceptors.DefaultCategoriesInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,9 @@ public class MvcConfig extends WebMvcAutoConfiguration.WebMvcAutoConfigurationAd
     @Autowired
     private CreateAdminAccountInteceptor createAdminAccountInteceptor;
 
+    @Autowired
+    private DefaultCategoriesInterceptor defaultCategoriesInterceptor;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/vendor/**")
@@ -29,6 +33,10 @@ public class MvcConfig extends WebMvcAutoConfiguration.WebMvcAutoConfigurationAd
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(createAdminAccountInteceptor).addPathPatterns("/**");
+        registry.addInterceptor(createAdminAccountInteceptor)
+                .addPathPatterns("/**");
+
+        registry.addInterceptor(defaultCategoriesInterceptor)
+                .addPathPatterns("/**");
     }
 }
