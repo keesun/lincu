@@ -27,6 +27,7 @@ public class DefaultCategoriesInterceptor extends HandlerInterceptorAdapter {
         addIfNotExist("News");
         addIfNotExist("Events");
         addIfNotExist("Technical Writings");
+        addIfNotExist("Uncategorized");
         return true;
     }
 
