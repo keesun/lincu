@@ -18,10 +18,10 @@
 <body>
     <div class="header col-xs-3 left-header">
         <div class="content">
-            <div class="col-xs-9 searchBox">
+            <div class="col-xs-9 left-padding-zero">
                 <input id="search" type="text" class="form-control" placeholder="Search"/>
             </div>
-            <button id="addBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addContent">
+            <button id="addBtn" type="button" class="btn btn-default" data-toggle="modal" data-target="#addContent">
                 Add
             </button>
 
@@ -49,23 +49,48 @@
         </div>
     </div>
     <div class="header col-xs-9 col-xs-offset-3">
-        <div class="content">
-            <p class="text-center">
-                <small>top</small>
-            </p>
-        </div>
+        <nav class="navbar" role="navigation" th:if="${current != null}">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="btn btn-default navbar-btn">Edit</button>
+                    <button id="deleteBtn" type="button" class="btn btn-default navbar-btn">Delete</button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <button type="button" class="btn btn-default navbar-btn">Uncategorized</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-3 sidebar">
                 <ul class="nav nav-sidebar">
-                    <li th:each="content,rowStat : ${allContents}" th:class="${rowStat.count == 1} ? active">
-                        <a href="#" th:text="${content.title}"></a>
+                    <li th:each="content,rowStat : ${allContents}" th:class="${content.id == current.id} ? active">
+                        <a href="/contents/1" th:href="${'/contents/' + content.id}" th:text="${content.title}"></a>
                     </li>
                 </ul>
             </div>
             <div class="col-xs-9 col-xs-offset-3 main">
-                <div></div>
+                <div th:if="${current != null}">
+                    <h2>
+                        <a href="/" target="_blank" th:href="${current.url}" th:text="${current.title}"></a>
+                    </h2>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span th:text="${current.url}"></span>
+                        </div>
+                        <div class="panel-body" th:text="${current.description}">
+                            Panel content
+                        </div>
+                    </div>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="http://google.com" th:attr="src=${current.url}"></iframe>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -73,7 +98,7 @@
         <div class="content">
             <div class="left-menu btn-group btn-group-justified">
                 <div class="btn-group">
-                    <a type="button" class="btn btn-default active" href="/">Contents</a>
+                    <a type="button" class="btn btn-default active" href="/contents">Contents</a>
                 </div>
                 <div class="btn-group">
                     <a type="button" class="btn btn-default" href="/categories" >Categories</a>
@@ -84,14 +109,14 @@
     <div class="footer col-xs-9 col-xs-offset-3">
         <div class="content">
             <p class="text-center">
-                <small>bottom</small>
+                Tags
             </p>
         </div>
     </div>
     <script src="/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/vendor/angular/angular.min.js"></script>
-    <script type="application/javascript">
+    <script type="application/javascript" th:inline="javascript">
         $(function() {
             $('#addContent').on('shown.bs.modal', function () {
                 $('#saveBtn').hide();

@@ -71,9 +71,22 @@ public class ContentService {
             content.setAlive(false);
             return content;
         }
-        content.setTitle(parsingTitle(contentResponse.getBody()));
+
+        String body = contentResponse.getBody();
+        Document doc = Jsoup.parse(body);
+
+        Elements title = doc.select("title");
+        content.setTitle(title.text());
+
+        Elements description = doc.select("meta[property=og:description]");
+        content.setDescription(description.attr("content"));
+
+        Elements siteName = doc.select("meta[property=og:site_name]");
+        content.setSiteName(siteName.attr("content"));
+
         content.setAlive(true);
         content.setCuratedAt(new Date());
         return repository.save(content);
     }
+
 }
