@@ -18,21 +18,9 @@ import java.util.List;
 @Controller
 public class HomeController {
 
-    @Autowired
-    private AccountRepository accountRepository;
-
-    @Autowired
-    private ContentRepository contentRepository;
-
     @RequestMapping("/")
-    public String home(Model model) {
-        model.addAttribute("content", new Content());
-        model.addAttribute("allContents", contentRepository.findAll(sortByCuratedDEAC()));
-        return "/index";
-    }
-
-    private Sort sortByCuratedDEAC() {
-        return new Sort(Sort.Direction.DESC, "curatedAt");
+    public String home() {
+        return "redirect:/contents";
     }
 
     @RequestMapping("/index")

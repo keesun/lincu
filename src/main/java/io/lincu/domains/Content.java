@@ -43,6 +43,11 @@ public class Content {
     @Temporal(TemporalType.TIMESTAMP)
     private Date curatedAt;
 
+    @Lob
+    private String description;
+
+    private String siteName;
+
     private boolean alive;
 
 }

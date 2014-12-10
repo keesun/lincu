@@ -2,20 +2,21 @@ package io.lincu.controllers;
 
 import io.lincu.controllers.dtos.ContentDTO;
 import io.lincu.domains.Content;
+import io.lincu.repositories.ContentRepository;
 import io.lincu.services.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author Keeun Baik
@@ -23,9 +24,11 @@ import javax.validation.Valid;
 @Controller
 public class ContentController {
 
-    @Autowired RestTemplate restTemplate;
+    @Autowired
+    private ContentService service;
 
-    @Autowired ContentService service;
+    @Autowired
+    private ContentRepository contentRepository;
 
     @RequestMapping(value = "/contents/check", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity check(@RequestParam String contentUrl) {
@@ -49,6 +52,37 @@ public class ContentController {
         return "redirect:/";
     }
 
+    @RequestMapping(value = "/contents", method = RequestMethod.GET)
+    public String allContents(Model model) {
+        model.addAttribute("content", new Content());
 
+        List<Content> all = contentRepository.findAll(sortByCuratedDEAC());
+        model.addAttribute("allContents", all);
+
+        if(all.size() > 0) {
+            Content firstContent = all.get(0);
+            model.addAttribute("current", firstContent);
+        }
+
+        return "/index";
+    }
+
+    @RequestMapping(value = "/contents/{id}", method = RequestMethod.GET)
+    public String viewContents(@PathVariable Long id, Model model) {
+        model.addAttribute("content", new Content());
+
+        List<Content> all = contentRepository.findAll(sortByCuratedDEAC());
+        model.addAttribute("allContents", all);
+
+        Content content = contentRepository.findOne(id);
+        model.addAttribute("current", content);
+
+        return "/index";
+    }
+
+
+    private Sort sortByCuratedDEAC() {
+        return new Sort(Sort.Direction.DESC, "curatedAt");
+    }
 
 }

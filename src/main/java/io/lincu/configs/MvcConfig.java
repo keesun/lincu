@@ -29,12 +29,17 @@ public class MvcConfig extends WebMvcAutoConfiguration.WebMvcAutoConfigurationAd
         registry.addResourceHandler("/styles/**")
                 .addResourceLocations("classpath:/styles/")
                 .setCachePeriod(0);
+
+        registry.addResourceHandler("/scripts/**")
+                .addResourceLocations("classpath:/scripts/")
+                .setCachePeriod(0);
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(createAdminAccountInteceptor)
-                .addPathPatterns("/**");
+                .addPathPatterns("/**")
+                .excludePathPatterns("/form/accounts/owner");
 
         registry.addInterceptor(defaultCategoriesInterceptor)
                 .addPathPatterns("/**");
