@@ -80,6 +80,11 @@ public class ContentController {
         return "/index";
     }
 
+    @RequestMapping(value = "/contents/{id}", method = RequestMethod.DELETE)
+    public String deleteContent(@PathVariable Long id) {
+        contentRepository.delete(id);
+        return "redirect:/contents";
+    }
 
     private Sort sortByCuratedDEAC() {
         return new Sort(Sort.Direction.DESC, "curatedAt");
