@@ -1,6 +1,7 @@
 package io.lincu.domains;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
@@ -13,6 +14,7 @@ import java.util.Set;
  */
 @Data
 @Entity
+@EqualsAndHashCode(of = {"id", "url"})
 public class Content {
 
     @Id

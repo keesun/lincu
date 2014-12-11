@@ -1,7 +1,9 @@
 package io.lincu.controllers;
 
 import io.lincu.controllers.dtos.ContentDTO;
+import io.lincu.domains.Category;
 import io.lincu.domains.Content;
+import io.lincu.repositories.CategoryRepository;
 import io.lincu.repositories.ContentRepository;
 import io.lincu.services.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -29,6 +30,9 @@ public class ContentController {
 
     @Autowired
     private ContentRepository contentRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @RequestMapping(value = "/contents/check", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity check(@RequestParam String contentUrl) {
@@ -49,12 +53,12 @@ public class ContentController {
         if(!newContent.isAlive()) {
             return "/index";
         }
-        return "redirect:/";
+        return "redirect:/contents";
     }
 
     @RequestMapping(value = "/contents", method = RequestMethod.GET)
     public String allContents(Model model) {
-        model.addAttribute("content", new Content());
+        addModelsForContents(model);
 
         List<Content> all = contentRepository.findAll(sortByCuratedDEAC());
         model.addAttribute("allContents", all);
@@ -69,7 +73,7 @@ public class ContentController {
 
     @RequestMapping(value = "/contents/{id}", method = RequestMethod.GET)
     public String viewContents(@PathVariable Long id, Model model) {
-        model.addAttribute("content", new Content());
+        addModelsForContents(model);
 
         List<Content> all = contentRepository.findAll(sortByCuratedDEAC());
         model.addAttribute("allContents", all);
@@ -88,6 +92,18 @@ public class ContentController {
 
     private Sort sortByCuratedDEAC() {
         return new Sort(Sort.Direction.DESC, "curatedAt");
+    }
+
+    private void addModelsForContents(Model model) {
+        Category uncategorized = categoryRepository.findByName(Category.UNCATEGORIZED);
+
+        Content newContent = new Content();
+        newContent.setCategory(uncategorized);
+
+        model.addAttribute("content", newContent);
+
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
     }
 
 }

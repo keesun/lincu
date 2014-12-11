@@ -24,7 +24,6 @@
             <button id="addBtn" type="button" class="btn btn-default" data-toggle="modal" data-target="#addContent">
                 Add
             </button>
-
             <!-- Modal -->
             <div class="modal fade" id="addContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -35,7 +34,17 @@
                         </div>
                         <div class="modal-body">
                             <form id="newContentForm" th:object="${content}" role="form" action="/contents" method="POST">
-                                <input id="contentUrl" type="url" th:field="*{url}" name="url" class="form-control" placeholder="Input URL" required="true" />
+                                <div class="form-group">
+                                    <input id="contentUrl" type="url" th:field="*{url}" name="url" class="form-control" placeholder="Input URL" required="true" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="category-select" class="control-label">Category:</label>
+                                    <select class="form-control" id="category-select" th:field="*{category}" name="category">
+                                        <option th:each="category : ${categories}"
+                                                th:value="${category.id}"
+                                                th:text="${category.name}">Uncategorized</option>
+                                    </select>
+                                </div>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -81,7 +90,7 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <button type="button" class="btn btn-default navbar-btn">Uncategorized</button>
+                            <button type="button" class="btn btn-default navbar-btn" th:text="${current.category.name}">Uncategorized</button>
                         </li>
                     </ul>
                 </div>

@@ -24,10 +24,10 @@ public class DefaultCategoriesInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        addIfNotExist("News");
-        addIfNotExist("Events");
-        addIfNotExist("Technical Writings");
-        addIfNotExist("Uncategorized");
+        addIfNotExist(Category.UNCATEGORIZED);
+        addIfNotExist(Category.NEWS);
+        addIfNotExist(Category.EVENTS);
+        addIfNotExist(Category.TECHNICAL_WRITINGS);
         return true;
     }
 
