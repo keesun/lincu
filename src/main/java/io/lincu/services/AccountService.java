@@ -1,7 +1,9 @@
 package io.lincu.services;
 
 import io.lincu.domains.Account;
+import io.lincu.domains.Settings;
 import io.lincu.repositories.AccountRepository;
+import io.lincu.repositories.SettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,10 @@ import java.util.Date;
 public class AccountService {
 
     @Autowired
-    AccountRepository repository;
+    private AccountRepository repository;
+
+    @Autowired
+    private SettingsRepository settingsRepository;
 
     public Account createOwner(Account account) {
         Date now = new Date();
@@ -25,6 +30,13 @@ public class AccountService {
         account.setUsername("admin");
         account.setSlug("admin-user");
         account.setOwner(true);
-        return repository.save(account);
+        Account newOwner = repository.save(account);
+
+        Settings admin = new Settings();
+        admin.setKey("admin");
+        admin.setValue(newOwner.getId().toString());
+        settingsRepository.save(admin);
+
+        return newOwner;
     }
 }

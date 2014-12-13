@@ -46,21 +46,14 @@ public class ContentController {
 
     @RequestMapping(value = "/contents", method = RequestMethod.POST)
     public String addContent(@ModelAttribute @Valid Content content, BindingResult result) {
-        if(result.hasErrors()) {
-            return "/index";
-        }
-        Content newContent = service.addNew(content);
-        if(!newContent.isAlive()) {
-            return "/index";
-        }
-        return "redirect:/contents";
+        throw new UnsupportedOperationException();
     }
 
     @RequestMapping(value = "/contents", method = RequestMethod.GET)
     public String allContents(Model model) {
         addModelsForContents(model);
 
-        List<Content> all = contentRepository.findAll(sortByCuratedDEAC());
+        List<Content> all = service.getAllContents();
         model.addAttribute("allContents", all);
 
         if(all.size() > 0) {

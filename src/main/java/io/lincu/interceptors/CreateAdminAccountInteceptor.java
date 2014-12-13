@@ -1,7 +1,9 @@
 package io.lincu.interceptors;
 
 import io.lincu.domains.Account;
+import io.lincu.domains.Settings;
 import io.lincu.repositories.AccountRepository;
+import io.lincu.repositories.SettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -17,12 +19,12 @@ import java.util.List;
 public class CreateAdminAccountInteceptor extends HandlerInterceptorAdapter {
 
     @Autowired
-    private AccountRepository accountRepository;
+    private SettingsRepository settingsRepository;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        List<Account> accounts = accountRepository.findByOwner(true);
-        if (accounts.isEmpty()) {
+        Settings admin = settingsRepository.findByKey("admin");
+        if (admin == null) {
             response.sendRedirect("/form/accounts/owner");
             return false;
         }

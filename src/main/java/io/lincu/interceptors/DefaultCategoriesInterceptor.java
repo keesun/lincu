@@ -1,7 +1,9 @@
 package io.lincu.interceptors;
 
 import io.lincu.domains.Category;
+import io.lincu.domains.Settings;
 import io.lincu.repositories.CategoryRepository;
+import io.lincu.repositories.SettingsRepository;
 import io.lincu.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,12 +24,24 @@ public class DefaultCategoriesInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private SettingsRepository settingsRepository;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        addIfNotExist(Category.UNCATEGORIZED);
-        addIfNotExist(Category.NEWS);
-        addIfNotExist(Category.EVENTS);
-        addIfNotExist(Category.TECHNICAL_WRITINGS);
+        Settings categoriesInitialized = settingsRepository.findByKey("init-categories");
+        if (categoriesInitialized == null) {
+            addIfNotExist(Category.UNCATEGORIZED);
+            addIfNotExist(Category.NEWS);
+            addIfNotExist(Category.EVENTS);
+            addIfNotExist(Category.TECHNICAL_WRITINGS);
+
+            categoriesInitialized = new Settings();
+            categoriesInitialized.setKey("init-categories");
+            categoriesInitialized.setValue("done");
+            settingsRepository.save(categoriesInitialized);
+        }
+
         return true;
     }
 

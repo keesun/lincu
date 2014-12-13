@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link href="/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="/styles/index.css" rel="stylesheet"/>
+    <title>LinCu</title>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="header col-xs-3 left-header">
+        <div class="content">
+            <input id="search" type="text" class="form-control" placeholder="Search"/>
+        </div>
+    </div>
+    <div class="header col-xs-9 col-xs-offset-3">
+        <nav class="navbar" role="navigation" th:if="${current != null}">
+            <div class="container-fluid">
+                <form class="navbar-form navbar-left">
+                    <button type="submit" class="btn btn-default">Edit</button>
+                </form>
+                <div class="collapse navbar-collapse" th:if="${current.content != null}">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <button type="button" class="btn btn-default navbar-btn" th:text="${current.content.category.name}">Uncategorized</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-3 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li th:each="post,rowStat : ${posts}" th:class="${post.id == current.id} ? active">
+                        <a href="/posts/1" th:href="${'/posts/' + post.id}" th:text="${post.title}"></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-9 col-xs-offset-3 main">
+                <div th:if="${current != null}">
+                    <h2>
+                        <a href="/" target="_blank" th:href="${current.url}" th:text="${current.title}"></a>
+                    </h2>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-star" th:if="${current.featured}"></i>
+                            <i class="fa fa-star-o" th:if="${!current.featured}"></i>
+                            <span th:text="${current.url}"></span>
+                        </div>
+                        <div class="panel-body" th:text="${current.shortDescr}">
+                            Panel content
+                        </div>
+                    </div>
+                    <div class="well embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="http://google.com" th:attr="src=${current.url}"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer col-xs-3 left-footer">
+        <div class="content">
+            <div class="left-menu btn-group btn-group-justified">
+                <div class="btn-group">
+                    <a type="button" class="btn btn-default active" href="/contents">Contents</a>
+                </div>
+                <div class="btn-group">
+                    <a type="button" class="btn btn-default" href="/categories" >Categories</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer col-xs-9 col-xs-offset-3">
+        <div class="content">
+            <p class="text-left">
+                <i class="fa fa-tags"></i>
+                <button th:each="tag : ${current.tags}" th:text="${tag.name}" class="btn btn-default"></button>
+            </p>
+        </div>
+    </div>
+    <script src="/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/vendor/angular/angular.min.js"></script>
+    <script type="application/javascript" th:inline="javascript">
+        $(function() {
+            // todo
+        });
+    </script>
+</body>
+</html>

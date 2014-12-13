@@ -9,10 +9,13 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
+ * Accounts that can login to D2.
+ *
  * @author Keeun Baik
  */
 @Data
 @Entity
+@Table(name = "d2_accounts")
 public class Account {
 
     @Id @GeneratedValue

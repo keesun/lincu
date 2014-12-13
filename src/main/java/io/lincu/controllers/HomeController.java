@@ -20,7 +20,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public String home() {
-        return "redirect:/contents";
+        return "redirect:/posts";
     }
 
     @RequestMapping("/index")

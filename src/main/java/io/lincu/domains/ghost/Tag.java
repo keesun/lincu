@@ -1,4 +1,4 @@
-package io.lincu.domains;
+package io.lincu.domains.ghost;
 
 import lombok.Data;
 
@@ -6,10 +6,13 @@ import javax.persistence.*;
 import java.util.Set;
 
 /**
+ * Read only domain for ghost.tags table
+ *
  * @author Keeun Baik
  */
 @Data
 @Entity
+@Table(name = "tags")
 public class Tag {
 
     @Id @GeneratedValue
@@ -18,9 +21,6 @@ public class Tag {
     @Column(nullable = false, unique = true)
     private String name;
 
-    private String descr;
-
-    @ManyToMany(mappedBy = "tags")
-    private Set<Content> contents;
+    private String slug;
 
 }

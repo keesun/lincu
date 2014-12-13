@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
-import java.util.Date;
+import java.util.List;
 
 /**
  * @author Keeun Baik
@@ -29,32 +29,7 @@ public class ContentService {
     private ContentRepository repository;
 
     public ContentDTO.ResponseToCheck checkUrl(String contentUrl) {
-        ContentDTO.ResponseToCheck dto = new ContentDTO.ResponseToCheck();
-        dto.setContentUrl(contentUrl);
-
-        Content content = repository.findByUrl(contentUrl);
-        if(content != null) {
-            dto.setValid(false);
-            dto.setReason("Duplicated with /contents/" + content.getId());
-            return dto;
-        }
-
-        ResponseEntity<String> contentResponse = null;
-        try {
-            contentResponse = restTemplate.getForEntity(contentUrl, String.class);
-        } catch (Exception e) {
-            dto.setValid(false);
-            dto.setReason("Request failed to get response");
-            return dto;
-        }
-
-        HttpStatus statusCode = contentResponse.getStatusCode();
-        if(statusCode.equals(HttpStatus.OK)) {
-            dto.setValid(true);
-            dto.setTitle(parsingTitle(contentResponse.getBody()));
-        }
-
-        return dto;
+        throw new UnsupportedOperationException();
     }
 
     private String parsingTitle(String body) {
@@ -64,29 +39,11 @@ public class ContentService {
     }
 
     public Content addNew(Content content) {
-        ResponseEntity<String> contentResponse = null;
-        try {
-            contentResponse = restTemplate.getForEntity(content.getUrl(), String.class);
-        } catch (Exception e) {
-            content.setAlive(false);
-            return content;
-        }
-
-        String body = contentResponse.getBody();
-        Document doc = Jsoup.parse(body);
-
-        Elements title = doc.select("title");
-        content.setTitle(title.text());
-
-        Elements description = doc.select("meta[property=og:description]");
-        content.setDescription(description.attr("content"));
-
-        Elements siteName = doc.select("meta[property=og:site_name]");
-        content.setSiteName(siteName.attr("content"));
-
-        content.setAlive(true);
-        content.setCuratedAt(new Date());
-        return repository.save(content);
+        throw new UnsupportedOperationException();
     }
 
+    public List<Content> getAllContents() {
+
+        return null;
+    }
 }

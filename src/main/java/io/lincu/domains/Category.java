@@ -15,6 +15,7 @@ import java.util.Set;
 @Entity
 @EqualsAndHashCode(of = {"id", "name"})
 @ToString(exclude = "contents")
+@Table(name = "d2_categories")
 public class Category {
 
     public static final String UNCATEGORIZED = "Uncategorized";
