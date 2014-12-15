@@ -211,3 +211,25 @@ dd {
     padding-left: 5px;
 }
 
+.panel-heading h2 {
+    margin-top: 10px;
+}
+
+.nav-sidebar > .active,
+.nav-sidebar > .active:hover,
+.nav-sidebar > .active:focus {
+    color: #fff;
+    background-color: #428bca;
+}
+
+.post-title {
+    font-size: 1.6rem;
+    line-height: 1.25em;
+    font-weight: normal;
+}
+
+.post-bottom {
+    font-size: 1.3rem;
+    font-weight: 300;
+}
+
