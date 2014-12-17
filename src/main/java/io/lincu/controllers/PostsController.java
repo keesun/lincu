@@ -26,8 +26,9 @@ public class PostsController {
 
     @RequestMapping(value = "/posts", method = RequestMethod.GET)
     public String allPosts(Model model) {
-        List<Post> all = repository.findAll();
-        model.addAttribute("posts", all);
+        List<Post> all = repository.findByStatus("published", publishedDesc());
+                model.addAttribute("posts", all);
+
         if (all.size() > 0) {
             model.addAttribute("current", all.get(0));
         }
@@ -36,10 +37,14 @@ public class PostsController {
 
     @RequestMapping(value = "/posts/{id}", method = RequestMethod.GET)
     public String getPost(@PathVariable Long id, Model model) {
-        List<Post> all = repository.findAll();
+        List<Post> all = repository.findByStatus("published", publishedDesc());
         model.addAttribute("posts", all);
         model.addAttribute("current", repository.findOne(id));
         return "/posts/index";
+    }
+
+    private Sort publishedDesc() {
+        return new Sort(Sort.Direction.DESC, "publishedAt");
     }
 
 }
