@@ -1,5 +1,6 @@
 package io.lincu.domains.ghost;
 
+import io.lincu.domains.Category;
 import io.lincu.domains.Content;
 import lombok.Data;
 
@@ -81,6 +82,14 @@ public class Post {
             return this.markdown.substring(0, 250).concat("...");
         }
         return this.markdown;
+    }
+
+    public boolean isSelected(Category category) {
+        if (this.content == null) {
+            return category.getName().equals(Category.UNCATEGORIZED);
+        } else {
+            return this.content.getCategory().equals(category);
+        }
     }
 
 }

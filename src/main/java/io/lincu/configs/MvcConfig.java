@@ -26,6 +26,10 @@ public class MvcConfig extends WebMvcAutoConfiguration.WebMvcAutoConfigurationAd
                 .addResourceLocations("classpath:/vendor/")
                 .setCachePeriod(Integer.MAX_VALUE);
 
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("classpath:/images/")
+                .setCachePeriod(Integer.MAX_VALUE);
+
         registry.addResourceHandler("/styles/**")
                 .addResourceLocations("classpath:/styles/")
                 .setCachePeriod(0);

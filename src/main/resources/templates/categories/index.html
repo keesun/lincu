@@ -59,6 +59,9 @@
         <div class="row">
             <div class="col-xs-3 sidebar">
                 <ul class="nav nav-sidebar">
+                    <li class="posts-header">
+                        All Categories
+                    </li>
                     <li th:each="category,rowStat : ${categories}" th:class="${category.id == current.id} ? active">
                         <a th:href="${'/categories/' + category.id}" th:text="${category.name}"></a>
                     </li>
@@ -83,6 +86,10 @@
                             <time th:datetime="${post.createdAt}" th:text="${#calendars.format(post.createdAt,'yyyy-MM-dd')}"></time>
                         </div>
                     </div>
+                </div>
+                <div th:if="${#lists.size(posts) == 0}">
+                    Empty
+                    <!--<img src="/images/empty.jpg" class="img-responsive img-rounded" alt="Responsive image" width="70%" />-->
                 </div>
             </div>
         </div>
