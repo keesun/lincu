@@ -26,13 +26,19 @@
         <nav class="navbar" role="navigation" th:if="${current != null}">
             <div class="container-fluid">
                 <form class="navbar-form navbar-left">
-                    <select class="form-control" autofocus="autofocus">
+                    <select id="categorySelect" class="form-control" autofocus="autofocus">
                         <option th:each="category : ${allCategories}"
                                 th:selected="${current.isSelected(category)}"
-                                th:text="${category.name}">
+                                th:text="${category.name}"
+                                th:value="${category.id}">
                             Uncategorized
                         </option>
                     </select>
+                    <span th:if="${current.content != null}">
+                        •
+                        Curated at
+                        <time th:datetime="${current.content.curatedAt}" th:text="${#calendars.format(current.content.curatedAt,'yyyy-MM-dd HH:mm:ss')}"></time>
+                    </span>
                 </form>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -52,11 +58,11 @@
                         All Posts
                     </li>
                     <li th:each="post,rowStat : ${posts}" th:class="${post.id == current.id} ? active">
-                        <a href="/posts/1" th:href="${'/posts/' + post.id}">
+                        <a href="/posts/1" th:href="${'/posts/' + post.id + '#anchor'}" th:name="${post.id == current.id} ? anchor">
                             <h3 class="post-title" th:text="${post.title}"></h3>
                             <div class="post-bottom">
                                 <i class="fa fa-star" th:if="${post.featured}"></i>
-                                <button class="btn btn-default btn-sm category">Uncategorized</button>
+                                <button class="btn btn-default btn-sm category" th:text="${post.categoryName}">Uncategorized</button>
                             </div>
                         </a>
                     </li>
@@ -113,7 +119,15 @@
     <script src="/vendor/angular/angular.min.js"></script>
     <script type="application/javascript" th:inline="javascript">
         $(function() {
-            // todo
+            $('#categorySelect').on('change', function() {
+                var postId = /*[[${current.id}]]*/ 'postId';
+                var categoryId = $('#categorySelect option:selected').val();
+
+                $.post("/contents/", {'categoryId': categoryId, 'postId': postId})
+                    .success(function() {
+                        location.reload(true);
+                    });
+            });
         });
     </script>
 </body>

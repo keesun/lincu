@@ -20,4 +20,10 @@ public class CategoryService {
     public void addNew(Category category) {
         repository.save(category);
     }
+
+    public void update(Category category) {
+        if (category.isEditable()) {
+            repository.save(category);
+        }
+    }
 }

@@ -29,7 +29,8 @@ public class Content {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "post_id", referencedColumnName = "id", columnDefinition = "int unsigned")
+    @JoinColumn(name = "post_id", referencedColumnName = "id", columnDefinition = "int unsigned", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @org.hibernate.annotations.ForeignKey(name = "none")
     private Post post;
 
     @ManyToOne

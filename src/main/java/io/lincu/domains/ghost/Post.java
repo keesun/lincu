@@ -92,4 +92,12 @@ public class Post {
         }
     }
 
+    public String getCategoryName() {
+        if (this.content == null) {
+            return Category.UNCATEGORIZED;
+        } else {
+            return this.content.getCategory().getName();
+        }
+    }
+
 }

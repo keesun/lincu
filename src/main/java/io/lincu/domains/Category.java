@@ -36,6 +36,8 @@ public class Category {
 
     private String descr;
 
+    private boolean editable = true;
+
     @OneToMany(mappedBy = "category")
     private Set<Content> contents;
 

@@ -46,11 +46,16 @@ public class DefaultCategoriesInterceptor extends HandlerInterceptorAdapter {
     }
 
     private void addIfNotExist(String categoryName) {
-        Category news = categoryRepository.findByName(categoryName);
-        if(news == null) {
-            news = new Category();
-            news.setName(categoryName);
-            categoryService.addNew(news);
+        Category category = categoryRepository.findByName(categoryName);
+        if(category == null) {
+            category = new Category();
+            category.setName(categoryName);
+            if(categoryName.equals(Category.UNCATEGORIZED)) {
+                category.setEditable(false);
+            } else {
+                category.setEditable(true);
+            }
+            categoryService.addNew(category);
         }
     }
 }

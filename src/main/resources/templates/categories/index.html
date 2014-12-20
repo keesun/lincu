@@ -49,11 +49,45 @@
         </div>
     </div>
     <div class="header col-xs-9 col-xs-offset-3">
-        <div class="content">
-            <p class="text-center" th:if="${current != null}">
-                <span th:text="${current.name}"></span>
-            </p>
-        </div>
+        <nav class="navbar" role="navigation" th:if="${current != null}">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <span id="currentName" class="navbar-brand" th:text="${current.name}">Brand</span>
+
+                    <form id="editForm" class="nav navbar-form navbar-left" method="post"
+                          th:action="${'/categories/' + current.id}">
+                        <input type="hidden" name="_method" value="PUT"/>
+                        <input type="text" name="name" class="form-control" th:value="${current.name}" placeholder="name" />
+                        <input type="text" name="descr" class="form-control" th:value="${current.descr}" placeholder="description" />
+                        <button type="submit" class="form-control">Save</button>
+                        <button id="cancleEditBtn" type="button" class="form-control">Cancel</button>
+                    </form>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                    <p class="navbar-text" id="currentDescr" th:text="${current.descr}">...</p>
+
+                    <ul class="nav navbar-nav navbar-right" th:if="${current.isEditable()} == true">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                Actions <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a id="editBtn" href="#">Edit</a>
+                                </li>
+                                <li>
+                                    <a id="moveBtn" href="#">Move</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a id="deleteBtn" href="#">Delete</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </div>
     <div class="container-fluid">
         <div class="row">
@@ -118,6 +152,8 @@
     <script src="/vendor/angular/angular.min.js"></script>
     <script type="application/javascript">
         $(function() {
+            $('#editForm').hide();
+
             $('#addCategory').on('shown.bs.modal', function () {
                 $('#saveBtn').hide();
                 $('#categoryName').focus();
@@ -125,14 +161,26 @@
 
             $('#categoryName').keyup(function() {
                 if ($( this ).val().length !== 0) {
-                    $('#saveBtn').removeClass('disabled');
+                    $('#saveBtn').show();
                 } else {
-                    $('#saveBtn').addClass('disabled');
+                    $('#saveBtn').hide();
                 }
             }).keyup();
 
             $('#saveBtn').click(function() {
                 $('#newCategoryForm').submit();
+            });
+
+            $('#editBtn').click(function() {
+                $('#editForm').show();
+                $('#currentName').hide();
+                $('#currentDescr').hide();
+            });
+
+            $('#cancleEditBtn').click(function() {
+                $('#editForm').hide();
+                $('#currentName').show();
+                $('#currentDescr').show();
             });
         });
     </script>
