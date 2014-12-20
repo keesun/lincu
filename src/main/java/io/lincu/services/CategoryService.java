@@ -26,4 +26,13 @@ public class CategoryService {
             repository.save(category);
         }
     }
+
+    public void delete(Category category) {
+        if (category.isEditable()) {
+            Category uncategorized = repository.findByName(Category.UNCATEGORIZED);
+            category.getContents().parallelStream().forEach(c -> c.setCategory(uncategorized));
+            category.setContents(null);
+            repository.delete(category);
+        }
+    }
 }

@@ -87,10 +87,15 @@ public class CategoryController {
         if (result.hasErrors()) {
             return "/categories/index";
         }
-        System.out.println("=================");
-        System.out.println(category);
         service.update(category);
         return "redirect:/categories/{id}";
+    }
+
+    @RequestMapping(value = "/categories/{id}", method = RequestMethod.DELETE)
+    public String deleteCategory(@PathVariable Long id) {
+        Category category = repository.findOne(id);
+        service.delete(category);
+        return "redirect:/categories";
     }
 
     private void addPosts(Model model, Category category) {
